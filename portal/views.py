@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
-from .form import UserRegisterForm, FormReset
+from .form import UserRegisterForm, FormReset, cambiarPasswordForm
 from .models import Users
 from django.contrib import messages
 from django.contrib.auth.models import Group
@@ -12,6 +12,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.views import PasswordChangeView
 
 # Create your views here.
 def index(request):
@@ -81,15 +82,19 @@ def reset_password_confirm(request, uidb64, token):
         user = None
 
     if user and default_token_generator.check_token(user, token):
+        
         if request.method == "POST":
             password1 = request.POST.get("password1")
             password2 = request.POST.get("password2")
+            
 
-            if password1 != password2:
-                messages.error(request, "Las contraseñas no coinciden.")
-            elif len(password1) < 8:
+            if len(password1) < 8:
                 messages.error(
                     request, "La contraseña debe tener al menos 8 caracteres.")
+            
+            elif password1 != password2:
+                messages.error(request, "Las contraseñas no coinciden.")
+                
             else:
                 user.set_password(password1)
                 user.save()
@@ -104,3 +109,21 @@ def reset_password_confirm(request, uidb64, token):
     else:
         messages.error(request, "El enlace no es válido o ha expirado.")
         return redirect('/')
+
+
+    
+#CAMBIAR PASSWORD DE LOS USUARIO, CADA USUARIO PODRA CAMBIAR SU PASSWORD
+class CambiarPasswordView(FormView):
+    template_name = 'registration/cambiarPassword.html'
+    form_class = cambiarPasswordForm
+    success_url = reverse_lazy('inicio')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user  # Aquí se pasa el usuario al formulario
+        return kwargs
+
+    def form_valid(self, form):
+        user = form.save()
+        update_session_auth_hash(self.request, user)  # Para mantener la sesión activa
+        return super().form_valid(form)
