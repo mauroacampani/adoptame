@@ -12,7 +12,9 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.views import PasswordChangeView
+from django.urls import reverse
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import SetPasswordForm
 
 # Create your views here.
 def index(request):
@@ -26,7 +28,7 @@ class RegistroUsuarioView(CreateView):
     success_url = reverse_lazy('login')
 
     def form_valid(self, form):
-        print(form)
+        
         usuario = form.save()
 
         group = Group.objects.get(name='usuario')
@@ -38,6 +40,7 @@ class RegistroUsuarioView(CreateView):
         return super().form_valid(form)
 
 
+
 class ResetPasswordEmailView(FormView):
     template_name = 'registration/formResetPassword.html'
     form_class = FormReset
@@ -45,19 +48,18 @@ class ResetPasswordEmailView(FormView):
     def form_valid(self, form):
         email = form.cleaned_data['email']
 
-        try:
-            user = Users.objects.get(email=email)
-        except Users.DoesNotExist:
-            messages.error(self.request, "El correo no está registrado")
-            return redirect('/users/resetPasswordEmail')
-
+        user = Users.objects.get(email=email)
+        
         # Generar token y UID
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         token = default_token_generator.make_token(user)
 
-        # Crear enlace con token
-        reset_link = f"http://127.0.0.1:8000/recuperarPassword/{uid}/{token}/"
 
+         # Usar reverse + build_absolute_uri en vez de hardcodear la URL
+        reset_link = self.request.build_absolute_uri(
+            reverse('validate_token', kwargs={'uidb64': uid, 'token': token})
+        )
+       
         # Enviar correo con el enlace
         email_message = EmailMessage(
             subject="Recuperación de contraseña",
@@ -65,58 +67,21 @@ class ResetPasswordEmailView(FormView):
             from_email=settings.EMAIL_HOST_USER,
             to=[email],
         )
-        email_message.send(fail_silently=False)
+       
+        # Enviar el correo
+        email_message.send()
 
         messages.success(
             self.request, "Se ha enviado un correo con instrucciones para restablecer la contraseña.")
-        return redirect('/')
+        return redirect('resetPasswordEmail')
     
-
-
-def reset_password_confirm(request, uidb64, token):
-
-    try:
-        uid = urlsafe_base64_decode(uidb64).decode()
-        user = Users.objects.get(pk=uid)
-    except (Users.DoesNotExist, ValueError, TypeError):
-        user = None
-
-    if user and default_token_generator.check_token(user, token):
-        
-        if request.method == "POST":
-            password1 = request.POST.get("password1")
-            password2 = request.POST.get("password2")
-            
-
-            if len(password1) < 8:
-                messages.error(
-                    request, "La contraseña debe tener al menos 8 caracteres.")
-            
-            elif password1 != password2:
-                messages.error(request, "Las contraseñas no coinciden.")
-                
-            else:
-                user.set_password(password1)
-                user.save()
-                # Mantiene la sesión iniciada si aplica
-                update_session_auth_hash(request, user)
-                messages.success(
-                    request, "Contraseña actualizada correctamente. Inicia sesión con tu nueva contraseña.")
-                return redirect('/')  # Redirige a la página de inicio o login
-
-        return render(request, 'registration/reset_password_form.html', {'user': user})
-
-    else:
-        messages.error(request, "El enlace no es válido o ha expirado.")
-        return redirect('/')
-
 
     
 #CAMBIAR PASSWORD DE LOS USUARIO, CADA USUARIO PODRA CAMBIAR SU PASSWORD
 class CambiarPasswordView(FormView):
     template_name = 'registration/cambiarPassword.html'
     form_class = cambiarPasswordForm
-    success_url = reverse_lazy('inicio')
+    success_url = reverse_lazy('cambiarPassword')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -126,4 +91,45 @@ class CambiarPasswordView(FormView):
     def form_valid(self, form):
         user = form.save()
         update_session_auth_hash(self.request, user)  # Para mantener la sesión activa
+        messages.add_message(self.request, messages.SUCCESS, "La contraseña se ha cambiado correctamente")
         return super().form_valid(form)
+    
+
+# def mensaje(request):
+#     return render(request, 'portal/mensaje.html')
+
+
+User = get_user_model()
+
+
+def validate_token_and_redirect(request, uidb64, token):
+    try:
+        uid = urlsafe_base64_decode(uidb64).decode()
+        user = User.objects.get(pk=uid)
+    except (User.DoesNotExist, ValueError, TypeError):
+        user = None
+
+    if user and default_token_generator.check_token(user, token):
+        request.session['reset_user_id'] = user.id
+        return redirect('set_new_password')
+    else:
+        return render(request, 'registration/token_invalid.html')
+    
+
+def set_new_password(request):
+    user_id = request.session.get('reset_user_id')
+    if not user_id:
+        return redirect('resetPasswordEmail')
+
+    user = User.objects.get(pk=user_id)
+
+    if request.method == 'POST':
+        form = SetPasswordForm(user, request.POST)
+        if form.is_valid():
+            form.save()
+            del request.session['reset_user_id']
+            return redirect('password_reset_complete')
+    else:
+        form = SetPasswordForm(user)
+
+    return render(request, 'registration/set_new_password.html', {'form': form})
