@@ -1,0 +1,152 @@
+<div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Nombre</label>
+    <i class="fa-solid fa-dog"></i> <i class="fa-solid fa-cat"></i>
+  <div class="form-outline flex-fill mb-0">
+    
+    <input type="text" id="{{form.nombre.auto_id }}" name="{{form.nombre.name}}" value="{{ form.nombre.value | default:'' }}" class="form-control form-control-sm" />
+   
+  </div>
+</div>
+<div class="error">{{form.nombre.errors}}</div>
+
+<div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Edad</label>
+    <i class="fa-solid fa-paw"></i>
+   
+  <div class="form-outline flex-fill mb-0">
+    
+    <input type="text" id="{{form.edad.auto_id }}" name="{{form.edad.name}}"  value="{{ form.edad.value | default:'' }}" class="form-control form-control-sm" />
+   
+  </div>
+</div>
+<div class="error">{{form.edad.errors}}</div>
+
+<div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Sexo</label>
+    <i class="fa-solid fa-m fa-xs"></i> - <i class="fa-solid fa-h fa-xs"></i>
+  <div class="form-outline flex-fill mb-0">
+    
+    <select id="{{ form.sexo.auto_id }}" name="{{ form.sexo.name }}" class="form-control form-control-sm">
+        {% for value, label in form.sexo.field.choices %}
+          <option value="{{ value }}" {% if form.sexo.value == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    
+  </div>
+</div>
+<div class="error">{{form.sexo.errors}}</div>
+
+<div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Vacuna</label>
+    <i class="fa-solid fa-syringe"></i>
+  <div class="form-outline flex-fill mb-0">
+    
+    <select id="{{ form.vacuna.auto_id }}" name="{{ form.vacuna.name }}" class="form-control form-control-sm">
+        {% for value, label in form.vacuna.field.choices %}
+          <option value="{{ value }}" {% if form.vacuna.value == value %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+  </div>
+</div>
+
+<div class="error">{{form.vacuna.errors}}</div>
+
+<div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Desparacitado</label>
+    <i class="fa-solid fa-virus-slash"></i>
+    <div class="form-outline flex-fill mb-0">
+      
+      <select id="{{ form.desparacitado.auto_id }}" name="{{ form.desparacitado.name }}" class="form-control form-control-sm">
+          {% for value, label in form.desparacitado.field.choices %}
+            <option value="{{ value }}" {% if form.desparacitado.value == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="error">{{form.desparacitado.errors}}</div>
+
+  <div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Estado</label>
+    <i class="fa-solid fa-circle-check"></i>
+    <div class="form-outline flex-fill mb-0">
+      
+      <select id="{{ form.estado.auto_id }}" name="{{ form.estado.name }}" class="form-control form-control-sm">
+          {% for value, label in form.estado.field.choices %}
+            <option value="{{ value }}" {% if form.estado.value == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="error">{{form.estado.errors}}</div>
+
+  <div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Castrado</label>
+    <i class="fa-solid fa-shield-cat"></i>
+    <div class="form-outline flex-fill mb-0">
+      
+      <select id="{{ form.castrado.auto_id }}" name="{{ form.castrado.name }}" class="form-control form-control-sm">
+          {% for value, label in form.castrado.field.choices %}
+            <option value="{{ value }}" {% if form.castrado.value == value %}selected{% endif %}>{{ label }}</option>
+          {% endfor %}
+        </select>
+    </div>
+  </div>
+
+  <div class="error">{{form.castrado.errors}}</div>
+
+  <div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Caracteristicas</label>
+    <i class="fa-solid fa-list-check"></i>
+    <div class="form-outline flex-fill mb-0">
+      
+      <input type="text" id="{{form.caracteristicas.auto_id }}" name="{{form.caracteristicas.name}}"  value="{{ form.caracteristicas.value | default:'' }}" class="form-control form-control-sm"  />
+    </div>
+  </div>
+
+  <div class="error">{{form.caracteristicas.errors}}</div>
+
+
+  <div class="d-flex flex-row align-items-center mb-3">
+
+    <div class="form-outline flex-fill mb-0">
+      <label class="form-label" for="form3Example3">Imagen</label>
+      <i class="fas fa-image-portrait fa-lg me-3 fa-fw"></i>
+      <input type="file" id="{{form.imagen.auto_id }}" name="{{form.imagen.name}}"  value="{{ form.imagen.value | default:'' }}" class="form-control form-control-sm" />
+     
+    </div>
+  </div>
+  <div class="error text-danger">{{form.imagen.errors}}</div>
+
+  <div class="d-flex flex-row align-items-center mb-3">
+
+    <div class="form-outline flex-fill mb-0">
+      <label class="form-label" for="form3Example3">Imagen 1</label>
+      <i class="fas fa-image-portrait fa-lg me-3 fa-fw"></i>
+      <input type="file" id="{{form.imagen1.auto_id }}" name="{{form.imagen1.name}}"  value="{{ form.imagen1.value | default:'' }}" class="form-control form-control-sm" />
+     
+    </div>
+  </div>
+  <div class="error text-danger">{{form.imagen1.errors}}</div>
+
+  <div class="form-outline flex-fill mb-3">
+    <label class="form-label" for="form3Example3">Imagen 2</label>
+    <i class="fas fa-image-portrait fa-lg me-3 fa-fw"></i>
+    <div class="form-outline flex-fill mb-0">
+     
+      <input type="file" id="{{form.imagen2.auto_id }}" name="{{form.imagen2.name}}"  value="" class="form-control form-control-sm" />
+     
+    </div>
+  </div>
+  <div class="error">{{form.imagen2.errors}}</div>
+
+  
+  
+
+
+<div class="text-center text-lg-start mt-4 pt-1">
+  <button type="submit" class="btn btn-primary btn-sm"
+    style="padding-left: 1.5rem; padding-right: 1.5rem;">Guardar</button>
+</div>
+

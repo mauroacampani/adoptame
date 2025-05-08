@@ -1,0 +1,53 @@
+{% extends 'administracion/base_administracion.html' %}
+{% load static %}
+
+{% block title %}Listado de Mascotas{% endblock %}
+
+
+  {% block contenido %}
+
+
+  <section class="py-5">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-start ">
+        <div class="card text-black w-100" style="border-radius: 25px;">
+          <div class="card-body" style="height: 100%;">
+            <div class="row justify-content-center align-items-center h-100">
+              <!-- Imagen -->
+             
+  
+              <!-- Formulario -->
+              <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center justify-content-center p-4">
+                <div class="w-100">
+                  {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">
+                      {{ message }}
+                    </div>
+                  {% endfor %}
+                  {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                      <div class="alert alert-danger">
+                        <strong>{{ error|escape }}</strong>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                  <p class="text-center h4 fw-bold mb-5 mx-1 mx-md-4 mt-4">Registrar Mascota</p>
+                  
+                  <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {% include 'administracion/mascotas/form.html' %}
+                   
+                  </form>
+  
+                </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
