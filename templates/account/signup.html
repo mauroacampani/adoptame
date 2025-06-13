@@ -1,0 +1,53 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% block title %}Registrarse{% endblock %}
+
+{% block css %}
+<style>
+
+</style>
+  {% endblock %}
+{% block content %}
+
+
+<section class="py-5">
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-start ">
+        <div class="card text-black w-100" style="border-radius: 25px;">
+          <div class="card-body" style="height: 100%;">
+            <div class="row justify-content-center align-items-center h-100">
+              <!-- Imagen -->
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center justify-content-center p-4" style="max-height: 400px; overflow: hidden;">
+                <img src="{% static '/img/registro.png' %}" class="img-fluid w-100" alt="Sample image" style="object-fit: contain; max-height: 60%; max-width: 60%;">
+              </div>
+  
+              <!-- Formulario -->
+              <div class="col-md-10 col-lg-6 col-xl-5 d-flex align-items-center justify-content-center p-4">
+                <div class="w-100">
+                  
+                  <p class="text-center h1 fw-bold mb-2 mx-1 mx-md-4 mt-4">Registrarse</p>
+                  
+                  <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
+
+                <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                  {% csrf_token %}
+                  {{ form|crispy }}
+                  {% if redirect_field_value %}
+                  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                  {% endif %}
+                  <button class="btn bt-sm btn-primary" type="submit">{% trans "Sign Up" %} </button>
+                </form>
+  
+                </div>
+              
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}
