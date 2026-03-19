@@ -1,0 +1,69 @@
+    {% extends "base/base.html" %}
+
+{% block title %}Inicio{% endblock %}
+{% block content %}
+    <section id="portfolio" class="portfolio section mt-3 mb-3">
+
+      <!-- Section Title -->
+      <div class="container section-title text-white text-center">
+        <h2>En adopcion</h2>
+        <p>Aqui encontraras las mascotas que estas en adocpion y las que ya fueron adoptadas.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+              <div class="row gy-4">
+                {% for m in mascotas%}
+                <div class="col-lg-3 col-md-3 portfolio-item">
+                  <div class="portfolio-wrap">
+                    <img src="{{m.imagen.url}}" class="img-fluid" alt="Portfolio Image">
+                    <div class="portfolio-info">
+                      <div class="content">
+                        <span class="category">{{m.nombre}}</span>
+                      
+                        <div class="portfolio-links">
+                      
+                          <a href="{% url 'detalleMascotas' m.id %}" title="Conóceme"><i class="bi bi-arrow-right"></i></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- End Portfolio Item -->
+              {% endfor %}
+              
+            
+              </div><!-- End Portfolio Container -->
+         
+     
+
+        </div>
+
+      </div>
+  <br>
+<nav aria-label="Page navigation">
+    <ul class="pagination pagination-floating justify-content-center">
+         <li class="page-item">
+            <a class="page-link" href="?page=1">Inicio</a>
+          </li>
+        {% if mascotas.has_previous %}
+      <li class="page-item {% if mascotas.number == 1 %}Disabled{% endif %}">
+        <a class="page-link" href="{% if mascotas.number != 1 %}?page={{ mascotas.previous_page_number }}{% endif %}">Anterior</a>
+      </li>
+      {% endif %}
+     <li class="page-item active">
+        <a class="page-link">{{ mascotas.number }}</a>
+     </li>
+      {% if mascotas.has_next %}
+      <li class="page-item {% if mascotas.number == mascotas.paginator.num_pages %}Disabled{% endif %}">
+        <a class="page-link" href="{% if mascotas.number != mascotas.paginator.num_pages %}?page={{ mascotas.next_page_number }}{% endif %}">Siguiente</a>
+      </li>
+      {% endif %}
+  
+      <li class="page-item">
+        <a class="page-link" href="?page={{ mascotas.paginator.num_pages }}">Última</a>
+      </li>
+    </ul>
+</nav>
+    </section>
+
+    {% endblock %}

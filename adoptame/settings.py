@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,12 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z(@!0c@o5z=zh39r-_86$!4q-6@8a3&4a05%=uzpvyyv8i^4a3'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG'),
 
 ALLOWED_HOSTS = ['*']
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/accounts/login'
 
 
 # Application definition
@@ -38,6 +42,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'portal',
+    'administracion',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+   
 ]
 
 ROOT_URLCONF = 'adoptame.urls'
@@ -55,7 +71,7 @@ ROOT_URLCONF = 'adoptame.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -63,10 +79,38 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
 ]
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+    }
+}
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+AUTHENTICATION_BACKENDS = [
+    
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+]
+
+SITE_ID=1
 
 WSGI_APPLICATION = 'adoptame.wsgi.application'
 
@@ -86,11 +130,11 @@ WSGI_APPLICATION = 'adoptame.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT'),
     }
 }
 
@@ -117,7 +161,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ar'
 
 TIME_ZONE = 'UTC'
 
@@ -133,7 +177,46 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# El debug true, buscar un directorio static dentro del proyecto
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+# esto se genera en producción y es la que deberemos
+# crear y django ira a buscar ahi
+# python manage.py collectstatic
+STATIC_ROOT = BASE_DIR / 'static_root'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
+
+# donde vamos a ir guardar los archivos medias debug
+MEDIA_URL = "/media/"
+# media para produccion
+MEDIA_ROOT = BASE_DIR / 'media'
+
+AUTH_USER_MODEL = 'portal.Users'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config("EMAIL_HOST")
+EMAIL_PORT = config("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+
+PASSWORD_RESET_TIMEOUT = 60 * 10
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_UNIQUE_EMAIL = True
+
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7

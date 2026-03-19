@@ -1,0 +1,88 @@
+{% extends 'administracion/base_administracion.html' %}
+{% load static %}
+
+{% block title %}Listado de Mascotas{% endblock %}
+
+
+  {% block contenido %}
+
+  <div class="row mt-4">
+
+     
+    <div class="col-md-10 offset-md-1">
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+      <div class="card-header py-3">
+          <div class="row">
+          <div class="col-3">
+          <a href="{% url 'registroMascotas' %}" class="btn btn-primary btn-sm"><i class="fas fa-solid fa-plus"></i> Nuevo Registro</a>
+        </div>
+      
+        </div>
+      </div>
+      <div class="card-body">
+          <div class="table-responsive ">
+              <table class="table table-bordered table-striped table-sm" id="tablaMascotas" width="100%" cellspacing="0">
+                  <thead>
+                      <tr>
+                          <th>Nombre</th>
+                          <th>Edad</th>
+                          <th>Sexo</th>
+                          <th>Vacuna</th>
+                          <th>Desparacitado</th>
+                          <th>Estado</th>
+                          <th>Castrado</th>
+                          <th>Caracteristicas</th>
+                         
+                          <th>Estado</th>
+                      </tr>
+                      
+                  </thead>
+                  
+                  <tbody>
+                    {% for m in mascotas %}
+                    <tr>
+                    <td>{{m.nombre}}</td>
+                    <td>{{m.edad}}</td>
+                    <td>{{m.castrado}}</td>
+                    <td>{{m.vacuna}}</td>
+                    <td>{{m.desparacitado}}</td>
+                    {% if m.estado == "Adoptado" %}
+                    <td><span class="badge bg-success">{{m.estado}}</span></td>
+                    {% else %}
+                    <td><span class="badge bg-warning">{{m.estado}}</span></td>
+                    {% endif %}
+                    <td>{{m.castrado}}</td>
+                    <td>{{m.caracteristicas}}</td>
+                    
+                    <td class="text-center">
+                            
+                        <a class="btn btn-sm btn-success ms-1" type="button" href="{% url 'editarMascota' m.id %}" role="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Editar"><i class="fa-solid fa-pen"></i></a>
+                        
+                        <a class="btn btn-sm btn-danger ms-1"  type="button" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                  </tbody>
+              </table>
+              
+
+
+              {{mensaje}}
+          </div>
+      </div>
+  </div>
+  
+</div>
+</div>
+
+   
+  {% endblock %}    
+
+  {% block js %}    
+  <script>
+    $(document).ready(function() {
+    table("tablaMascotas");
+    });
+</script>
+  {% endblock %}    

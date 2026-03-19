@@ -1,7 +1,5 @@
-asgiref==3.8.1
+
 Django==3.2
-psycopg2-binary==2.9.10
+psycopg2-binary==2.9.6
 python-decouple==3.8
-pytz==2025.2
-setuptools==79.0.0
-sqlparse==0.5.3
+

@@ -1,0 +1,345 @@
+:root { 
+    --background-color: #ffffff; /* Background color for the entire website, including individual sections */
+    --default-color: #58a8f3; /* Default color used for the majority of the text content across the entire website */
+    --heading-color: #2881f5; /* Color for headings, subheadings and title throughout the website */
+    --accent-color: #0683f8; /* Accent color that represents your brand on the website. It's used for buttons, links, and other elements that need to stand out */
+    --surface-color: #ffffff; /* The surface color is used as a background of boxed elements within sections, such as cards, icon boxes, or other elements that require a visual separation from the global background. */
+    --contrast-color: #fcf8f8; /* Contrast color for text, ensuring readability against backgrounds of accent, heading, or default colors. */
+  }
+
+.footer {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    background-color: #343a40;
+    color: #fff;
+  }
+  
+  .copyright {
+    background-color: #1a252f;
+  }
+
+  body{
+    font-family: "Roboto",  system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+      overflow-x: hidden;
+      /* background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,118,121,1) 45%, rgba(0,212,255,1) 100%); */
+      /* background: linear-gradient(45deg, #2937f0, #9f1ae2) !important; */
+      /* background: linear-gradient(45deg, #d3d5f8, #b8d3fc) !important; */
+      /* background: linear-gradient(90deg, rgb(178, 238, 248) 0%, rgb(96, 218, 248) 45%, rgb(17, 182, 247) 100%); */
+      background-color: #1f1f1f;
+  }
+  
+.hero {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+  }
+  
+  .hero .carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    min-height: 60vh;
+    
+    width: 100%;
+    color: #fdfdfd;
+  }
+  
+  .hero h2 {
+    margin-bottom: 10px;
+    font-size: 48px;
+    font-weight: 700;
+  }
+  
+  .hero h2 span {
+    text-decoration: underline;
+  }
+  
+  .hero p {
+    max-width: 80%;
+    animation-delay: 0.4s;
+    margin: 0 auto 30px auto;
+    font-weight: bold;
+  }
+  
+  .hero .carousel-control-prev,
+  .hero .carousel-control-next {
+    width: 10%;
+  }
+  
+  .hero .carousel-control-next-icon,
+  .hero .carousel-control-prev-icon {
+    background: none;
+    font-size: 48px;
+    line-height: 1;
+    width: auto;
+    height: auto;
+    color: #0056b3;
+  }
+  
+  .hero .btn-get-started {
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 1px;
+    display: inline-block;
+    padding: 12px 32px;
+    border-radius: 50px;
+
+    transition: 0.5s;
+    line-height: 1;
+    margin: 10px;
+    animation-delay: 0.8s;
+    color: white;
+    border: 2px solid var(--accent-color);
+    text-decoration: none;
+  }
+
+.divider:after,
+.divider:before {
+content: "";
+flex: 1;
+height: 1px;
+background: #080000d8;
+}
+
+.pagination-floating {
+    margin: 2rem 0;
+}
+
+.pagination-floating .page-link {
+    border: none;
+    padding: 5px 22px;
+    margin: 0 5px;
+    border-radius: 10px;
+    background: white;
+    color: #495057;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.pagination-floating .page-item.active .page-link {
+    background: #007bff;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+.pagination-floating .page-link:hover {
+    background: #3b3d3f;
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4);
+}
+
+
+
+
+/*--------------------------------------------------------------
+# Portfolio Section
+--------------------------------------------------------------*/
+@media (max-width: 991px) {
+  .portfolio .filter-sidebar {
+    margin-bottom: 30px;
+  }
+}
+
+.portfolio .filters-wrapper {
+  background-color: color-mix(in srgb, var(--surface-color), var(--default-color) 3%);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 991px) {
+  .portfolio .filters-wrapper {
+    padding: 20px;
+  }
+}
+
+
+.portfolio .portfolio-wrap {
+  transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  height: 100%;
+}
+
+.portfolio .portfolio-wrap img {
+  transition: transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.portfolio .portfolio-wrap .portfolio-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 100%);
+  z-index: 3;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .content {
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transform: translateY(20px);
+}
+
+.portfolio .portfolio-wrap .portfolio-info .category {
+  display: inline-block;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.portfolio .portfolio-wrap .portfolio-info h4 {
+  font-size: 20px;
+  color: var(--contrast-color);
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links {
+  display: flex;
+  gap: 12px;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links a {
+  color: var(--contrast-color);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--accent-color), transparent 30%);
+  border-radius: 50%;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.portfolio .portfolio-item:hover {
+  border-color: black;
+}
+
+.portfolio .portfolio-wrap .portfolio-info .portfolio-links a:hover {
+  background-color: var(--accent-color);
+  transform: translateY(-3px);
+ 
+}
+
+.portfolio .portfolio-wrap:hover {
+  transform: translateY(-5px);
+  
+}
+
+.portfolio .portfolio-wrap:hover img {
+  transform: scale(1.08);
+ 
+}
+
+.portfolio .portfolio-wrap:hover .portfolio-info {
+  transform: translateY(0);
+  opacity: 1;
+  
+}
+
+.portfolio .portfolio-wrap:hover .portfolio-info .content {
+  transform: translateY(0);
+}
+
+
+/*--------------------------------------------------------------
+# Portfolio Details Section
+--------------------------------------------------------------*/
+.portfolio-details .portfolio-details-slider {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(var(--default-color), 0.1);
+}
+
+
+
+.portfolio-details .portfolio-info {
+  padding: 30px;
+  background-color: var(--surface-color);
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(var(--default-color), 0.1);
+}
+
+.portfolio-details .portfolio-info h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.portfolio-details .portfolio-info ul {
+  padding: 0;
+  list-style: none;
+}
+
+.portfolio-details .portfolio-info ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--default-color), transparent 90%);
+}
+
+.portfolio-details .portfolio-info ul li:last-child {
+  border-bottom: 0;
+}
+
+.portfolio-details .portfolio-info ul li strong {
+  font-weight: 600;
+  margin-right: 10px;
+  color: var(--heading-color);
+}
+
+.portfolio-details .portfolio-info ul li a {
+  color: var(--accent-color);
+  transition: 0.3s;
+}
+
+.portfolio-details .portfolio-info ul li a:hover {
+  color: color-mix(in srgb, var(--accent-color), transparent 25%);
+  text-decoration: underline;
+}
+
+
+@media (max-width: 991px) {
+  .portfolio-details .portfolio-info {
+    margin-top: 20px;
+  }
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: rgb(108, 108, 250);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  opacity: 1;
+  transition: 0.3s;
+
+}
+
+.carousel-indicators [data-bs-target].active {
+  opacity: 1;
+ background-color: #3104f8;
+}
