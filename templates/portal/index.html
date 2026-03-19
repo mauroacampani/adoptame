@@ -2,7 +2,15 @@
 
 {% block title %}Inicio{% endblock %}
 
+
 {% block content %}
+  
+  <header class="bg-secondary text-white text-center py-5">
+    <div class="container">
+      <h1 class="display-4">{% block header %}Bienvenido a Adóptame{% endblock %}</h1>
+      <p class="lead">{% block subheader %}Un hogar para cada patita 🐾{% endblock %}</p>
+    </div>
+  </header>
  <!-- Hero Section -->
  {% for message in messages %}
  {% if message.tags == "error" %}
@@ -55,7 +63,7 @@
       </a>
 
     </div>
-
+ 
   </section>
 
 {% endblock %}

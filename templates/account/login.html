@@ -14,7 +14,7 @@
 <section class="py-5">
     <div class="container">
       <div class="row d-flex justify-content-center align-items-start ">
-        <div class="card text-black w-100" style="border-radius: 25px;">
+        <div class="card bg-secondary text-white w-100" style="border-radius: 25px;">
           <div class="card-body" style="height: 100%;">
             <div class="row justify-content-center align-items-center h-100">
               <!-- Imagen -->
@@ -45,9 +45,9 @@
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
-                    <button class="btn btn-primary btn-block" type="submit">{% trans "Sign In" %}</button>
+                    <button class="btn btn-dark btn-block" type="submit">{% trans "Sign In" %}</button>
                  <div class="mt-2">
-                    <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                    <a class="button text-dark secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
                  </div>
 
                   <div class="socialaccount_ballot text-center">

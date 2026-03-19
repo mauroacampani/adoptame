@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DetailView
 from django.urls import reverse_lazy
 from .form import UserRegisterForm, FormReset, cambiarPasswordForm
 from .models import Users
@@ -15,10 +15,54 @@ from django.contrib.auth import update_session_auth_hash
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import SetPasswordForm
+from administracion.models import Mascotas
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 # Create your views here.
 def index(request):
     return render(request, 'portal/index.html')
+
+
+class MascotasList(ListView):
+    model = Mascotas
+    template_name = 'portal/mascotas.html' 
+    context_object_name = 'mascotas'  
+
+
+    def get_queryset(self):
+      
+        return Mascotas.objects.all().order_by('estado')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        
+        page = self.request.GET.get('page', 1)
+
+        
+        paginator = Paginator(context['mascotas'], 8)
+        try:
+            
+            mascotas = paginator.page(page)
+        except PageNotAnInteger:
+            
+            mascotas = paginator.page(1)
+        except EmptyPage:
+            
+            mascotas = paginator.page(paginator.num_pages)
+
+
+        context['mascotas'] = mascotas
+
+        return context
+    
+
+
+class MascotaDetalleView(DetailView):
+    model = Mascotas
+    template_name = 'portal/detalleMascota.html'
+    context_object_name = 'mascota'  
+
 
 
 class RegistroUsuarioView(CreateView):

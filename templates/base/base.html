@@ -28,7 +28,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#">Mascotas</a>
+            <a class="nav-link" href="{% url 'mascotas' %}">Mascotas</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Contacto</a>
@@ -106,13 +106,7 @@
 </div>
 
   <!-- HEADER -->
-  
-  <header class="bg-primary text-white text-center py-5">
-    <div class="container">
-      <h1 class="display-4">{% block header %}Bienvenido a Adóptame{% endblock %}</h1>
-      <p class="lead">{% block subheader %}Un hogar para cada patita 🐾{% endblock %}</p>
-    </div>
-  </header>
+
 
   <!-- CONTENIDO PRINCIPAL -->
  
